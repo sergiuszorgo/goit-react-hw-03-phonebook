@@ -10,6 +10,22 @@ class App extends Component {
     contacts: [],
     filter: "",
   };
+  // построение из localStorage
+  componentDidMount() {
+    const contacts = localStorage.getItem("contacts");
+    if (contacts) {
+      const parsContacts = JSON.parse(contacts);
+      this.setState({ contacts: parsContacts });
+    } else {
+      return;
+    }
+  }
+  //
+  componentDidUpdate(prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
+    }
+  }
   // проверка на совпадение
   checkContact = (name) => {
     return this.state.contacts.some(
